@@ -2,10 +2,10 @@ OBJS=start.o kernel.o
 
 DFLAGS=-mtriple=armv7a-none-eabi -mcpu=cortex-a15 -betterC -g -dw -float-abi=soft -wi
 CFLAGS=-mcpu=cortex-a15 -mfloat-abi=soft -ffreestanding -ggdb -Wall -Werror
-LDFLAGS=-nostartfiles -nodefaultlibs -nostdlib 
+LDFLAGS=-nostartfiles -nodefaultlibs -nostdlib
 #-Wl,-gc-sections
 
-.PHONY: all
+.PHONY: all run clean
 .SUFFIXES: .o .d .S
 
 all: plaid.kernel
@@ -20,5 +20,7 @@ plaid.kernel: $(OBJS) linker.ld
 	arm-none-eabi-gcc $(CFLAGS) -c $< -o $@
 
 clean:
-	del *.o
-	del plaid.kernel
+	rm -f *.o plaid.kernel
+
+run: plaid.kernel
+	QEMU_AUDIO_DRV=none qemu-system-arm -M vexpress-a15 -cpu cortex-a15 -m 512 -kernel plaid.kernel -serial mon:stdio -nographic
