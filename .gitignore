@@ -1,3 +1,4 @@
 *.o
 *~
 plaid.kernel
+.gdb*

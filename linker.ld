@@ -4,9 +4,9 @@ ENTRY(_start)
 
 MEMORY
 {
-    DDR0 : ORIGIN = 0x80010000, LENGTH = 0x10000000
+    DDR0 : ORIGIN = 0x80010000, LENGTH = 0x20000
 }
- 
+
 SECTIONS {
     .stub : {
         *start.o (.text)
@@ -23,21 +23,21 @@ SECTIONS {
     .data : {
         __data_start__ = .;
         . = ALIGN(4);
-        *(.data*) 
+        *(.data*)
         __data_end__ = .;
     } >DDR0
 
     .bss : {
-        . = ALIGN(4); 
-        __bss_start__ = .;    
-        *(.bss*)  
+        . = ALIGN(4);
+        __bss_start__ = .;
+        *(.bss*)
         *(COMMON)
         __bss_end__ = .;
     } >DDR0
 
     __exidx_start = .;
-    .ARM.exidx : { 
-        *(.ARM.exidx* .gnu.linkonce.armexidx.*) 
+    .ARM.exidx : {
+        *(.ARM.exidx* .gnu.linkonce.armexidx.*)
     } >DDR0
     __exidx_end = .;
 

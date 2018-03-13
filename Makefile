@@ -23,4 +23,5 @@ clean:
 	rm -f *.o plaid.kernel
 
 run: plaid.kernel
-	QEMU_AUDIO_DRV=none qemu-system-arm -M vexpress-a15 -cpu cortex-a15 -m 512 -kernel plaid.kernel -serial mon:stdio -nographic
+	QEMU_AUDIO_DRV=none qemu-system-arm -M vexpress-a15 -cpu cortex-a15 -m 512 -kernel plaid.kernel -serial stdio -S -s
+#-serial mon:stdio -nographic

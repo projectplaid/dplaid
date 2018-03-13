@@ -44,12 +44,12 @@ _fast_interrupt_vector_h:           .word   fast_interrupt_vector
   .global _reset_
 _reset_:
   // Copy the vector table to the active table at 0x00000000
-  ldr r0, =_start
-  mov r1, #0x0000
-  ldmia r0!, {r2, r3, r4, r5, r6, r7, r8, r9}
-  stmia r1!, {r2, r3, r4, r5, r6, r7, r8, r9}
-  ldmia r0!, {r2, r3, r4, r5, r6, r7, r8, r9}
-  stmia r1!, {r2, r3, r4, r5, r6, r7, r8, r9}
+  @@ ldr r0, =_start
+  @@ mov r1, #0x0000
+  @@ ldmia r0!, {r2, r3, r4, r5, r6, r7, r8, r9}
+  @@ stmia r1!, {r2, r3, r4, r5, r6, r7, r8, r9}
+  @@ ldmia r0!, {r2, r3, r4, r5, r6, r7, r8, r9}
+  @@ stmia r1!, {r2, r3, r4, r5, r6, r7, r8, r9}
 
   // Set up the Stack for Undefined mode
   ldr r0, =_stack               @ Read the stack address
@@ -83,4 +83,3 @@ _reset_:
 
   ldr r10, =hardwareInit
   bx r10
-

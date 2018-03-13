@@ -75,5 +75,7 @@ extern(C) void kernel_main() {
   uart_write("Hello world");
 
   while (true) {
+    char c = uart_read();
+    uart_write(c);
   }
 }
