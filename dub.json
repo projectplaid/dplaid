@@ -1,0 +1,9 @@
+{
+	"name": "dplaid",
+	"authors": [
+		"Robert Roland"
+	],
+	"description": "A minimal D application.",
+	"copyright": "Copyright © 2018, Robert Roland",
+	"license": "proprietary"
+}
