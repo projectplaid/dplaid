@@ -17,36 +17,47 @@ enum ulong UART_MIS = 0x040;
 enum ulong UART_ICR = 0x044;
 enum ulong UART_DMACR = 0x048;
 
-void mmio_write(ulong address, ulong data) {
-  volatileStore(cast(ulong*)address, data);
+void mmio_write(ulong address, ulong data)
+{
+  volatileStore(cast(ulong*) address, data);
 }
 
-ulong mmio_read(ulong address) {
-  return volatileLoad(cast(ulong*)address);
+ulong mmio_read(ulong address)
+{
+  return volatileLoad(cast(ulong*) address);
 }
 
-void uart_init() {
-  mmio_write(UART0+UART_CR, 0x00000000);
+void uart_init()
+{
+  mmio_write(UART0 + UART_CR, 0x00000000);
 
   // enable FIFOs
-  mmio_write(UART0+UART_LCR_H, (1 << 4));
+  mmio_write(UART0 + UART_LCR_H, (1 << 4));
 
   // Enable UART, Enable transmit, enable receive
-  mmio_write(UART0+UART_CR, (1 << 0) | (1 << 8) | (1 << 9));
+  mmio_write(UART0 + UART_CR, (1 << 0) | (1 << 8) | (1 << 9));
 }
 
-void uart_write(char c) {
-  while(mmio_read(UART0+UART_FR) & (1 << 5)) {}
+void uart_write(char c)
+{
+  while (mmio_read(UART0 + UART_FR) & (1 << 5))
+  {
+  }
   mmio_write(UART0, c);
 }
 
-char uart_read() {
-  while(mmio_read(UART0+UART_FR) & (1 << 4)) {}
-  return cast(char)volatileLoad(cast(ulong*)UART0);
+char uart_read()
+{
+  while (mmio_read(UART0 + UART_FR) & (1 << 4))
+  {
+  }
+  return cast(char) volatileLoad(cast(ulong*) UART0);
 }
 
-void uart_write(string str) {
-  for (uint i = 0; i < str.length; i++) {
+void uart_write(string str)
+{
+  for (uint i; i < str.length; i++)
+  {
     uart_write(str[i]);
   }
 }

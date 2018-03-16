@@ -32,17 +32,17 @@ _start:
   ldr pc, _interrupt_vector_h
   ldr pc, _fast_interrupt_vector_h
 
-_reset_h:                           .word   _reset_
+_reset_h:                           .word   _reset
 _undefined_instruction_vector_h:    .word   undefined_instruction_vector
 _software_interrupt_vector_h:       .word   software_interrupt_vector
 _prefetch_abort_vector_h:           .word   prefetch_abort_vector
 _data_abort_vector_h:               .word   data_abort_vector
-_unused_handler_h:                  .word   _reset_
+_unused_handler_h:                  .word   _reset
 _interrupt_vector_h:                .word   interrupt_vector
 _fast_interrupt_vector_h:           .word   fast_interrupt_vector
 
-  .global _reset_
-_reset_:
+  .global _reset
+_reset:
   // Copy the vector table to the active table at 0x00000000
   @@ ldr r0, =_start
   @@ mov r1, #0x0000
@@ -50,6 +50,10 @@ _reset_:
   @@ stmia r1!, {r2, r3, r4, r5, r6, r7, r8, r9}
   @@ ldmia r0!, {r2, r3, r4, r5, r6, r7, r8, r9}
   @@ stmia r1!, {r2, r3, r4, r5, r6, r7, r8, r9}
+
+  // point the vector base address to the right place
+  ldr r0, =_start
+  MCR p15, 0, r0, c12, c0, 0
 
   // Set up the Stack for Undefined mode
   ldr r0, =_stack               @ Read the stack address
