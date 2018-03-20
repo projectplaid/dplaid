@@ -1,4 +1,4 @@
-OBJS=start.o uart.o interrupt.o kernel.o
+OBJS=start.o soc.o uart.o interrupt.o kernel.o
 
 DFLAGS=-mtriple=armv7a-none-eabi -mcpu=cortex-a15 -betterC -g -dw -float-abi=soft -wi -nogc
 CFLAGS=-mcpu=cortex-a15 -mfloat-abi=soft -ffreestanding -ggdb -Wall -Werror
