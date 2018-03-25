@@ -1,12 +1,22 @@
 module soc;
 
-/** The peripheral base address on the Cortex-A15 */
-enum int PERIPHERAL_BASE = 0x1e000000;
+import uart;
+
+/** PERIPHBASE[39:15] is the GIC base address. PERIPHBASE comes from Configuration Base Address Register */
+__gshared uint PERIPHERAL_BASE;
 
 /** The Generic Interrupt Controller base address */
-enum int GIC_DIST_BASE = PERIPHERAL_BASE + 0x1000;
-/** The CPU controller base address */
-enum int CPU_BASE = PERIPHERAL_BASE + 0x100;
+enum uint GIC_DIST_BASE = 0x2000;
 
-enum int GICD_CTLR = GIC_DIST_BASE + 0x000;
-enum int GICD_TYPER = GIC_DIST_BASE + 0x004;
+enum uint GICD_CTLR = GIC_DIST_BASE + 0x000;
+enum uint GICD_TYPER = GIC_DIST_BASE + 0x004;
+
+/** The CPU controller base address */
+enum uint CPU_BASE = 0x100;
+
+extern (C) uint get_peripheral_base_address();
+
+void soc_init()
+{
+    PERIPHERAL_BASE = get_peripheral_base_address();
+}

@@ -5,6 +5,7 @@ version (LDC)
   import ldc.llvmasm;
 }
 
+import soc;
 import interrupt;
 import uart;
 
@@ -70,6 +71,8 @@ extern (C) extern __gshared ubyte __data_end__;
 extern (C) extern __gshared ubyte __bss_start__;
 extern (C) extern __gshared ubyte __bss_end__;
 
+extern (C) void _init();
+
 extern (C) void hardwareInit()
 {
   // copy data segment out of ROM and into RAM
@@ -78,8 +81,14 @@ extern (C) void hardwareInit()
   // zero out variables initialized to void
   memset(&__bss_start__, 0, &__bss_end__ - &__bss_start__);
 
-  interrupt_init();
+  // global constructor fun
+  _init();
+
+  soc_init();
+
   uart_init();
+
+  interrupt_init();
 
   kernel_main();
 }

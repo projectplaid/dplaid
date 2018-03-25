@@ -61,3 +61,24 @@ void uart_write(string str)
     uart_write(str[i]);
   }
 }
+
+void uart_write(uint i)
+{
+  uint rb;
+  uint rc;
+
+  rb = 32;
+  while (true)
+  {
+    rb -= 4;
+    rc = (i >> rb) & 0xF;
+    if (rc > 9)
+    {
+      rc += 0x37;
+    } else {
+      rc += 0x30;
+    }
+    uart_write(cast(char)rc);
+    if (rb == 0) break;
+  }
+}

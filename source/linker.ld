@@ -31,6 +31,7 @@ SECTIONS {
         . = ALIGN(4);
         __bss_start__ = .;
         *(.bss*)
+        *(.tbss*)
         *(COMMON)
         __bss_end__ = .;
     } >DDR0
@@ -40,6 +41,20 @@ SECTIONS {
         *(.ARM.exidx* .gnu.linkonce.armexidx.*)
     } >DDR0
     __exidx_end = .;
+
+    .init_array : {
+        crti.o(.init_array)
+        KEEP (*(SORT(EXCLUDE_FILE(crti.o crtn.o) .init_array.*)))
+        KEEP (*(EXCLUDE_FILE(crti.o crtn.o) .init_array))
+        crtn.o(.init_array)
+    } > DDR0
+
+    .fini_array : {
+        crti.o(.fini_array)
+        KEEP (*(SORT(EXCLUDE_FILE(crti.o crtn.o) .fini_array.*)))
+        KEEP (*(EXCLUDE_FILE(crti.o crtn.o) .fini_array))
+        crtn.o(.fini_array)
+    } > DDR0
 
     .heap : {
         . = ALIGN(4);

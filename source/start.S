@@ -42,6 +42,7 @@ _interrupt_vector_h:                .word   interrupt_vector
 _fast_interrupt_vector_h:           .word   fast_interrupt_vector
 
   .global _reset
+  .global PERIPHERAL_BASE
 _reset:
   // Copy the vector table to the active table at 0x00000000
   @@ ldr r0, =_start
@@ -87,3 +88,14 @@ _reset:
 
   ldr r10, =hardwareInit
   bx r10
+
+  .global get_peripheral_base_address
+get_peripheral_base_address:
+  MRC p15, 4, r0, c15, c0, 0
+
+  bx lr
+
+  .global __aeabi_read_tp
+__aeabi_read_tp:
+  mrc p15, 0, r0, c13, c0, 3
+  bx lr
